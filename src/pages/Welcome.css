@@ -1,0 +1,491 @@
+* {
+    box-sizing: border-box;
+}
+
+.welcome-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background: linear-gradient(135deg, #F5A8E8 0%, #E8B0D8 50%, #F0C8E5 100%);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Header */
+.welcome-header {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid rgba(245, 168, 232, 0.3);
+    box-shadow: 0 4px 20px rgba(245, 168, 232, 0.15);
+    animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-logo-icon {
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-logo-icon img {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header-brand {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #5A2D4A;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.header-brand:hover {
+    color: #4A1D3A;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-languages {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.header-lang-button {
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(245, 168, 232, 0.4);
+    color: #7A3D6A;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    min-width: 45px;
+}
+
+.header-lang-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #9A4D85;
+    border-color: rgba(245, 168, 232, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(245, 168, 232, 0.3);
+}
+
+.header-lang-button.active {
+    background: linear-gradient(135deg, #E85A8D 0%, #E87FA3 100%);
+    border-color: #E85A8D;
+    color: white;
+    box-shadow: 0 4px 15px rgba(232, 90, 141, 0.4);
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+    .welcome-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .header-logo-icon {
+        font-size: 2rem;
+    }
+
+    .header-logo-icon img {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .header-brand {
+        font-size: 1.1rem;
+    }
+
+    .header-lang-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        min-width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-header {
+        padding: 0.8rem 1rem;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .header-left {
+        gap: 0.6rem;
+    }
+
+    .header-logo-icon {
+        font-size: 1.8rem;
+    }
+
+    .header-logo-icon img {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .header-brand {
+        font-size: 0.95rem;
+    }
+
+    .header-languages {
+        gap: 0.4rem;
+    }
+
+    .header-lang-button {
+        padding: 0.35rem 0.7rem;
+        font-size: 0.8rem;
+        min-width: 35px;
+    }
+}
+
+/* Main Content */
+.welcome-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    z-index: 2;
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-logo {
+    font-size: 10rem;
+    margin-bottom: 2rem;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 30px rgba(255, 255, 255, 0.5));
+    transition: transform 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-logo img {
+    width: 18rem;
+    height: 18rem;
+    object-fit: contain;
+}
+
+.welcome-logo::before {
+    position: absolute;
+    top: -20px;
+    right: -30px;
+    font-size: 3rem;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+.welcome-logo::after {
+    position: absolute;
+    bottom: -20px;
+    left: -30px;
+    font-size: 2.5rem;
+    animation: sparkle 2.5s ease-in-out infinite 0.5s;
+}
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(0.8) rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+}
+
+.welcome-logo:hover {
+    transform: scale(1.15) rotate(10deg);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-25px);
+    }
+}
+
+.welcome-title {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #7A3D6A;
+    margin: 1.5rem 0;
+    text-align: center;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.6),
+        0 0 40px rgba(245, 168, 232, 0.4);
+    letter-spacing: -2px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #7A3D6A 0%, #9A4D85 50%, #B85D98 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 10px rgba(245, 168, 232, 0.4));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 20px rgba(245, 168, 232, 0.6));
+    }
+}
+
+.welcome-text {
+    font-size: 1.4rem;
+    color: #7A3D6A;
+    text-align: center;
+    margin: 2rem 0 3rem;
+    font-weight: 500;
+    line-height: 1.7;
+    max-width: 650px;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.6);
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 20px rgba(245, 168, 232, 0.25);
+}
+
+/* Buttons */
+.welcome-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.welcome-button {
+    padding: 1.5rem 4rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #E85A8D 0%, #E87FA3 100%);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(232, 90, 141, 0.35),
+        0 0 0 0 rgba(232, 90, 141, 0.2);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.welcome-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    transition: left 0.6s;
+}
+
+.welcome-button:hover::before {
+    left: 100%;
+}
+
+.welcome-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(232, 90, 141, 0.45),
+        0 0 0 8px rgba(232, 90, 141, 0.25);
+    background: linear-gradient(135deg, #E87FA3 0%, #E85A8D 100%);
+}
+
+.welcome-button:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Gradient Background - Soft Pink */
+.welcome-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to right,
+            rgba(245, 168, 232, 0.5) 0%,
+            rgba(240, 200, 229, 0.6) 25%,
+            rgba(232, 176, 216, 0.5) 50%,
+            rgba(232, 143, 204, 0.6) 75%,
+            rgba(245, 168, 232, 0.5) 100%);
+    z-index: 1;
+    animation: gradientShift 20s ease infinite;
+    background-size: 200% 200%;
+    border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.welcome-gradient::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 100%);
+}
+
+/* Footer - Cute Style */
+.welcome-footer {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+    border-top: 3px solid rgba(245, 168, 232, 0.5);
+    box-shadow: 0 -4px 20px rgba(245, 168, 232, 0.15);
+}
+
+.footer-credit {
+    color: #8B5B7B;
+    font-size: 0.9rem;
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .welcome-title {
+        font-size: 3rem;
+    }
+
+    .welcome-text {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
+
+    .welcome-button {
+        padding: 1.2rem 3rem;
+        font-size: 1.2rem;
+    }
+
+    .welcome-logo {
+        font-size: 8rem;
+    }
+
+    .welcome-logo img {
+        width: 14rem;
+        height: 14rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-title {
+        font-size: 2.5rem;
+    }
+
+    .welcome-text {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+        margin: 1.5rem 0 2rem;
+    }
+
+    .welcome-button {
+        padding: 1rem 2.5rem;
+        font-size: 1rem;
+    }
+
+    .welcome-logo {
+        font-size: 6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .welcome-logo img {
+        width: 12rem;
+        height: 12rem;
+    }
+
+    .welcome-main-content {
+        padding: 2rem 1.5rem;
+    }
+}
