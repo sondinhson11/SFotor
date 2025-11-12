@@ -127,6 +127,32 @@
     box-shadow: 0 4px 15px rgba(232, 90, 141, 0.4);
 }
 
+.header-camera-select {
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(245, 168, 232, 0.4);
+    color: #7A3D6A;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    min-width: 150px;
+    outline: none;
+}
+
+.header-camera-select:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #9A4D85;
+    border-color: rgba(245, 168, 232, 0.6);
+    box-shadow: 0 4px 15px rgba(245, 168, 232, 0.3);
+}
+
+.header-camera-select:focus {
+    border-color: rgba(245, 168, 232, 0.8);
+    box-shadow: 0 4px 15px rgba(245, 168, 232, 0.4);
+}
+
 /* Main Content */
 .shoot-main {
     flex: 1;

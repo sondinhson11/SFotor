@@ -27,6 +27,9 @@ function Shoot() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isCapturing, setIsCapturing] = useState(false);
   const [currentSlot, setCurrentSlot] = useState(0);
+  const [facingMode, setFacingMode] = useState("user"); // "user" = front, "environment" = back
+  const [availableCameras, setAvailableCameras] = useState([]);
+  const [selectedCameraId, setSelectedCameraId] = useState("");
   const reservedSlotRef = useRef(null);
   const latestPhotosRef = useRef(photos);
   const capturingRef = useRef(false);
@@ -74,6 +77,40 @@ function Shoot() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Get available cameras
+  useEffect(() => {
+    async function getCameras() {
+      try {
+        // Request permission first to get camera labels (only on desktop)
+        if (!isMobile) {
+          try {
+            const tempStream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+            });
+            // Stop the temporary stream immediately
+            tempStream.getTracks().forEach((track) => track.stop());
+          } catch (e) {
+            // Permission denied or error, continue anyway
+          }
+        }
+
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+        setAvailableCameras(videoDevices);
+        if (videoDevices.length > 0 && !selectedCameraId && !isMobile) {
+          // Set first camera as default (desktop only)
+          setSelectedCameraId(videoDevices[0].deviceId);
+        }
+      } catch (error) {
+        console.error("Error getting cameras:", error);
+      }
+    }
+    getCameras();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile]);
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
@@ -159,13 +196,27 @@ function Shoot() {
 
   // Camera setup
   useEffect(() => {
-    startCamera();
+    if (isMobile) {
+      startCamera(facingMode);
+    } else {
+      // On desktop, wait a bit for camera list to load, then start camera
+      if (availableCameras.length > 0) {
+        startCamera(
+          facingMode,
+          selectedCameraId || availableCameras[0]?.deviceId
+        );
+      } else {
+        // Fallback: start with default constraints if no cameras detected yet
+        startCamera(facingMode);
+      }
+    }
     return () => {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
       }
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [facingMode, selectedCameraId, isMobile, availableCameras.length]);
 
   // Apply effects to preview
   useEffect(() => {
@@ -327,15 +378,28 @@ function Shoot() {
     };
   }, [blackWhite, brightness, classic, blur, isFlipped, zoomLevel, stream]);
 
-  const startCamera = async () => {
+  const startCamera = async (mode = "user", deviceId = null) => {
     try {
+      // Stop current stream if exists
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+
       const constraints = {
         video: {
-          facingMode: "user",
           width: { ideal: 1280 },
           height: { ideal: 720 },
         },
       };
+
+      // On mobile, use facingMode; on desktop, use deviceId if available
+      if (isMobile) {
+        constraints.video.facingMode = mode;
+      } else if (deviceId) {
+        constraints.video.deviceId = { exact: deviceId };
+      } else if (selectedCameraId) {
+        constraints.video.deviceId = { exact: selectedCameraId };
+      }
 
       const mediaStream = await navigator.mediaDevices.getUserMedia(
         constraints
@@ -353,11 +417,17 @@ function Shoot() {
     }
   };
 
-  const handleRefresh = () => {
-    if (stream) {
-      stream.getTracks().forEach((track) => track.stop());
+  const handleSwitchCamera = () => {
+    // Switch between front and back camera (mobile only)
+    if (isMobile) {
+      const newFacingMode = facingMode === "user" ? "environment" : "user";
+      setFacingMode(newFacingMode);
     }
-    startCamera();
+  };
+
+  const handleCameraChange = (event) => {
+    const deviceId = event.target.value;
+    setSelectedCameraId(deviceId);
   };
 
   const handleFlip = () => {
@@ -928,6 +998,22 @@ function Shoot() {
           </span>
         </div>
         <div className="header-right">
+          {/* Camera selector for desktop */}
+          {!isMobile && availableCameras.length > 1 && (
+            <select
+              className="header-camera-select"
+              value={selectedCameraId}
+              onChange={handleCameraChange}
+              title="Chọn camera"
+            >
+              {availableCameras.map((camera) => (
+                <option key={camera.deviceId} value={camera.deviceId}>
+                  {camera.label ||
+                    `Camera ${availableCameras.indexOf(camera) + 1}`}
+                </option>
+              ))}
+            </select>
+          )}
           <div className="header-languages">
             {availableLanguages.map((lang) => (
               <button
@@ -1141,8 +1227,13 @@ function Shoot() {
             <div className="camera-controls">
               <button
                 className="control-button"
-                onClick={handleRefresh}
-                title="Refresh"
+                onClick={handleSwitchCamera}
+                title={
+                  facingMode === "user"
+                    ? "Chuyển camera sau"
+                    : "Chuyển camera trước"
+                }
+                style={{ display: isMobile ? "block" : "none" }}
               >
                 <span>🔄</span>
               </button>
