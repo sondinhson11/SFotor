@@ -197,7 +197,7 @@ function Home() {
       <div className="home-main-content">
         {/* Logo/Mascot */}
         <div className="home-logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src={getAssetPath("/logo.png")} alt="Logo" />
         </div>
 
         {/* Title */}

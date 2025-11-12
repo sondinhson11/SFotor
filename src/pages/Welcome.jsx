@@ -101,7 +101,7 @@ function Welcome() {
       <div className="welcome-main-content">
         {/* Logo/Mascot */}
         <div className="welcome-logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src={getAssetPath("/logo.png")} alt="Logo" />
         </div>
 
         {/* Title */}
