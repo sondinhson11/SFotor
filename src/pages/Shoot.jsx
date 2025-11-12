@@ -917,7 +917,7 @@ function Shoot() {
       <header className="shoot-header">
         <div className="header-left">
           <div className="header-logo-icon">
-            <img src="/logo.png" alt="Logo" />
+            <img src={getAssetPath("/logo.png")} alt="Logo" />
           </div>
           <span
             className="header-brand"

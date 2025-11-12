@@ -8,6 +8,7 @@ import {
   getAvailableLanguages,
   clearLanguageCache,
 } from "../utils/language";
+import { getAssetPath } from "../utils/pathHelper";
 
 function Welcome() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ function Welcome() {
       <div className="welcome-container">
         <div className="welcome-main-content">
           <div className="welcome-logo">
-            <img src="/logo.png" alt="Logo" />
+            <img src={getAssetPath("/logo.png")} alt="Logo" />
           </div>
         </div>
       </div>
@@ -69,7 +70,7 @@ function Welcome() {
       <header className="welcome-header">
         <div className="header-left">
           <div className="header-logo-icon">
-            <img src="/logo.png" alt="Logo" />
+            <img src={getAssetPath("/logo.png")} alt="Logo" />
           </div>
           <span
             className="header-brand"

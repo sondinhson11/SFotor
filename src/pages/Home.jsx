@@ -8,6 +8,7 @@ import {
   getAvailableLanguages,
   clearLanguageCache,
 } from "../utils/language";
+import { getAssetPath } from "../utils/pathHelper";
 
 function Home() {
   const navigate = useNavigate();
@@ -152,7 +153,7 @@ function Home() {
       <div className="home-container">
         <div className="home-main-content">
           <div className="home-logo">
-            <img src="/logo.png" alt="Logo" />
+            <img src={getAssetPath("/logo.png")} alt="Logo" />
           </div>
         </div>
       </div>
@@ -165,7 +166,7 @@ function Home() {
       <header className="home-header">
         <div className="header-left">
           <div className="header-logo-icon">
-            <img src="/logo.png" alt="Logo" />
+            <img src={getAssetPath("/logo.png")} alt="Logo" />
           </div>
           <span
             className="header-brand"
