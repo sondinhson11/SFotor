@@ -1,0 +1,1030 @@
+{
+  "frames": [
+    {
+      "id": 1,
+      "name": "Basic White",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-white.png"
+    },
+    {
+      "id": 2,
+      "name": "Basic Black",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-black.png"
+    },
+    {
+      "id": 3,
+      "name": "Basic Pastel Purple",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-pastel-purple.png"
+    },
+    {
+      "id": 4,
+      "name": "Basic Pastel Pink",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-pastel-pink.png"
+    },
+    {
+      "id": 5,
+      "name": "Basic Pastel Green",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-pastel-green.png"
+    },
+    {
+      "id": 6,
+      "name": "Basic Pastel Blue",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-pastel-blue.png"
+    },
+    {
+      "id": 7,
+      "name": "Basic Hot Orange",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-hot-orange.png"
+    },
+    {
+      "id": 8,
+      "name": "Basic Sky Blue",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-sky-blue.png"
+    },
+    {
+      "id": 9,
+      "name": "Basic Office Blue",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-office-blue.png"
+    },
+    {
+      "id": 10,
+      "name": "Basic Goldie Yellow",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-goldie-yellow.png"
+    },
+    {
+      "id": 11,
+      "name": "Basic Frame 1",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-frame-1.png"
+    },
+    {
+      "id": 12,
+      "name": "Basic Frame 2",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-frame-2.png"
+    },
+    {
+      "id": 20,
+      "name": "Birthday Purple Sweet",
+      "category": "Birthday",
+      "type": "banv1",
+      "path": "/frame/birthday-purple-sweet.png"
+    },
+    {
+      "id": 21,
+      "name": "Birthday",
+      "category": "Birthday",
+      "type": "banv1",
+      "path": "/frame/birthday.png"
+    },
+    {
+      "id": 22,
+      "name": "HPBD White Vintage",
+      "category": "Birthday",
+      "type": "banv1",
+      "path": "/frame/birthday-hpbd-white-vintage.png"
+    },
+    {
+      "id": 30,
+      "name": "Songkran Thailand",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-songkran-thailand.png"
+    },
+    {
+      "id": 31,
+      "name": "Vietnam",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam.png"
+    },
+    {
+      "id": 32,
+      "name": "Vietnam Hanoi",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam-hanoi.png"
+    },
+    {
+      "id": 33,
+      "name": "Vietnam HCM",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam-hcm.png"
+    },
+    {
+      "id": 34,
+      "name": "Vietnam Da Nang",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam-danang.png"
+    },
+    {
+      "id": 35,
+      "name": "Vietnam Hue",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam-hue.png"
+    },
+    {
+      "id": 36,
+      "name": "Vietnam Nha Trang",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam-nhatrang.png"
+    },
+    {
+      "id": 37,
+      "name": "Vietnam Flag",
+      "category": "Countries",
+      "type": "banv1",
+      "path": "/frame/countries-vietnam-flag.png"
+    },
+    {
+      "id": 40,
+      "name": "Cute Watermelon",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-watermelon.png"
+    },
+    {
+      "id": 41,
+      "name": "Cute Vitinhtu",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-vitinhtu.png"
+    },
+    {
+      "id": 42,
+      "name": "Cute Summer Vibe",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-summer-vibe.png"
+    },
+    {
+      "id": 43,
+      "name": "Cute Puca",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-puca.png"
+    },
+    {
+      "id": 44,
+      "name": "Cute Pause Breathe",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-pause-breathe.png"
+    },
+    {
+      "id": 45,
+      "name": "Cute New Day",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-new-day.png"
+    },
+    {
+      "id": 46,
+      "name": "Cute My BF",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-my-bf.png"
+    },
+    {
+      "id": 47,
+      "name": "Cute Let's Part",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-lets-part.png"
+    },
+    {
+      "id": 48,
+      "name": "Cute Forever Young",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-forever-young.png"
+    },
+    {
+      "id": 49,
+      "name": "Cute Dream",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-dream.png"
+    },
+    {
+      "id": 50,
+      "name": "Cute Cloud",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-cloud.png"
+    },
+    {
+      "id": 51,
+      "name": "Cute Cats Read",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-cats-read.png"
+    },
+    {
+      "id": 52,
+      "name": "Cute Cats Paws",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-cats-paws.png"
+    },
+    {
+      "id": 53,
+      "name": "Cute Cats Fat",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-cats-fat.png"
+    },
+    {
+      "id": 54,
+      "name": "Cute Biutiphun",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-biutiphun.png"
+    },
+    {
+      "id": 55,
+      "name": "Cute Aichacha",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-aichacha.png"
+    },
+    {
+      "id": 56,
+      "name": "Cute Drawing",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-drawing.png"
+    },
+    {
+      "id": 60,
+      "name": "K-Pop Frame",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-kpop.png"
+    },
+    {
+      "id": 61,
+      "name": "Blackpink World Tour",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-blackpink-world-tour.png"
+    },
+    {
+      "id": 62,
+      "name": "TTPD Anniversary",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-ttpd-anniversary.png"
+    },
+    {
+      "id": 63,
+      "name": "We Bare Bears",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-we-bare-bears.png"
+    },
+    {
+      "id": 64,
+      "name": "Totally Spies",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-totally-spies.png"
+    },
+    {
+      "id": 65,
+      "name": "Superstar",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-superstar.png"
+    },
+    {
+      "id": 66,
+      "name": "Twinkle Star",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-twinkle-star.png"
+    },
+    {
+      "id": 67,
+      "name": "Golden Moment Fandom",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-golden-moment-fandom.png"
+    },
+    {
+      "id": 68,
+      "name": "Golden Moment Fandom 2",
+      "category": "Idol",
+      "type": "banv1",
+      "path": "/frame/idol-golden-moment-fandom-2.png"
+    },
+    {
+      "id": 70,
+      "name": "LHP",
+      "category": "School",
+      "type": "banv1",
+      "path": "/frame/school-lhp.png"
+    },
+    {
+      "id": 71,
+      "name": "NVN",
+      "category": "School",
+      "type": "banv1",
+      "path": "/frame/school-nvn.png"
+    },
+    {
+      "id": 80,
+      "name": "Vietnam Màu Đỏ",
+      "category": "Vietnam",
+      "type": "banv1",
+      "path": "/frame/vietnam-mau-do.png"
+    },
+    {
+      "id": 81,
+      "name": "Vietnam Floral",
+      "category": "Vietnam",
+      "type": "banv1",
+      "path": "/frame/vietnam-floral.png"
+    },
+    {
+      "id": 82,
+      "name": "Độc Lập Tự Do Hạnh Phúc",
+      "category": "Vietnam",
+      "type": "banv1",
+      "path": "/frame/vietnam-doclap-tudo-hanhphuc.png"
+    },
+    {
+      "id": 83,
+      "name": "Khát Vọng Là Người Việt",
+      "category": "Vietnam",
+      "type": "banv1",
+      "path": "/frame/vietnam-khat-vong-la-nguoi-viet.png"
+    },
+    {
+      "id": 90,
+      "name": "Y2K Memory",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-y2k-memory.png"
+    },
+    {
+      "id": 91,
+      "name": "Memories",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-memories.png"
+    },
+    {
+      "id": 92,
+      "name": "Summer",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-summer.png"
+    },
+    {
+      "id": 93,
+      "name": "Jeans",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-jeans.png"
+    },
+    {
+      "id": 94,
+      "name": "Autumn Lover",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-autumn-lover.png"
+    },
+    {
+      "id": 95,
+      "name": "Pretty Girl",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/cute-pretty-girl.png"
+    },
+    {
+      "id": 96,
+      "name": "Fotogram Feed",
+      "category": "Basic",
+      "type": "banv1",
+      "path": "/frame/basic-fotogram-feed.png"
+    },
+    {
+      "id": 100,
+      "name": "2025 May",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/2025may.png"
+    },
+    {
+      "id": 101,
+      "name": "Anh Trai Say Hi",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/anhtraisayhi.png"
+    },
+    {
+      "id": 102,
+      "name": "Back To School",
+      "category": "School",
+      "type": "banv2",
+      "path": "/frame/backtoschool.png"
+    },
+    {
+      "id": 103,
+      "name": "Blackpink 2",
+      "category": "Idol",
+      "type": "banv2",
+      "path": "/frame/blackpink2.png"
+    },
+    {
+      "id": 104,
+      "name": "Bún Bò Huế",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/bunbohue.png"
+    },
+    {
+      "id": 105,
+      "name": "Chơi Tết Khán",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/choitekhan.png"
+    },
+    {
+      "id": 106,
+      "name": "Chứng Nhận Kết Hôn",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/chungnhankethon.png"
+    },
+    {
+      "id": 107,
+      "name": "CN3 Chiếm",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/cn3chiem.png"
+    },
+    {
+      "id": 108,
+      "name": "Conan",
+      "category": "Idol",
+      "type": "banv2",
+      "path": "/frame/conan.png"
+    },
+    {
+      "id": 109,
+      "name": "Con Mèo Con Thỏ",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/conmeocontho.png"
+    },
+    {
+      "id": 110,
+      "name": "Con Rồng Trắng Hồng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/controntranghong.png"
+    },
+    {
+      "id": 111,
+      "name": "Cutie Xanh Lá",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/cutiexanhla.png"
+    },
+    {
+      "id": 112,
+      "name": "Do More",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/domore.png"
+    },
+    {
+      "id": 113,
+      "name": "Drink Matcha",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/drinkmatcha.png"
+    },
+    {
+      "id": 114,
+      "name": "Em Xinh",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/emxinh.png"
+    },
+    {
+      "id": 115,
+      "name": "Free Hihi",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/freehihi.png"
+    },
+    {
+      "id": 116,
+      "name": "Gấu Hồng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/gauhong.png"
+    },
+    {
+      "id": 117,
+      "name": "Gấu Hồng Hoa Thú",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/gauhonghoathu.png"
+    },
+    {
+      "id": 118,
+      "name": "Gấu Kẹo Ngọt Màu Hồng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/gaukeongotmauhong.png"
+    },
+    {
+      "id": 119,
+      "name": "Girly Life Hồng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/girlylifehong.png"
+    },
+    {
+      "id": 120,
+      "name": "Gumball",
+      "category": "Idol",
+      "type": "banv2",
+      "path": "/frame/gumball.png"
+    },
+    {
+      "id": 121,
+      "name": "Happy Day",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/happyday.png"
+    },
+    {
+      "id": 122,
+      "name": "Instagram",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/instagrams.png"
+    },
+    {
+      "id": 123,
+      "name": "iPhone",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/iphone.png"
+    },
+    {
+      "id": 124,
+      "name": "Jisoo",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/jsu.png"
+    },
+    {
+      "id": 125,
+      "name": "Let Party",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/letparty.png"
+    },
+    {
+      "id": 126,
+      "name": "Level Unlocked",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/levelunlocked.png"
+    },
+    {
+      "id": 127,
+      "name": "Locket",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/locket.png"
+    },
+    {
+      "id": 128,
+      "name": "Lông Sẽ Điều",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/longsedieu.png"
+    },
+    {
+      "id": 129,
+      "name": "Loopy",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/loopy.png"
+    },
+    {
+      "id": 130,
+      "name": "Lovely Stonie Xanh",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/lovelystoniexanh.png"
+    },
+    {
+      "id": 131,
+      "name": "Lucky Charm",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/luckycharm.png"
+    },
+    {
+      "id": 132,
+      "name": "Lý Hân Xanh",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/lyhanxanh.png"
+    },
+    {
+      "id": 133,
+      "name": "Minions",
+      "category": "Idol",
+      "type": "banv2",
+      "path": "/frame/minions.png"
+    },
+    {
+      "id": 134,
+      "name": "One And Only",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/oneandonly.png"
+    },
+    {
+      "id": 135,
+      "name": "Porsche",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/porsche.png"
+    },
+    {
+      "id": 136,
+      "name": "PUBG Vàng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/pubgvang.png"
+    },
+    {
+      "id": 137,
+      "name": "PUBG Xanh Lá",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/pubgxanhla.png"
+    },
+    {
+      "id": 138,
+      "name": "Sinh Cầu Bê Bụt Chi",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/sincaubebutchi.png"
+    },
+    {
+      "id": 139,
+      "name": "Stitch",
+      "category": "Idol",
+      "type": "banv2",
+      "path": "/frame/stitch.png"
+    },
+    {
+      "id": 140,
+      "name": "T1",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/t1.png"
+    },
+    {
+      "id": 141,
+      "name": "Teddy Cute",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/teddycute.png"
+    },
+    {
+      "id": 142,
+      "name": "Thu Hoa Hồng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/thuhoahng.png"
+    },
+    {
+      "id": 143,
+      "name": "Thuốc Lào VN",
+      "category": "Vietnam",
+      "type": "banv2",
+      "path": "/frame/thuoclaovn.png"
+    },
+    {
+      "id": 144,
+      "name": "Timeless",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/timeless.png"
+    },
+    {
+      "id": 145,
+      "name": "Toloom",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/toloom.png"
+    },
+    {
+      "id": 146,
+      "name": "Trái Tim Màu Tím",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/traitimmautim.png"
+    },
+    {
+      "id": 147,
+      "name": "Vịt Ngủ Hồng",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/vitnguhong.png"
+    },
+    {
+      "id": 148,
+      "name": "VN 2 Tháng 9",
+      "category": "Vietnam",
+      "type": "banv2",
+      "path": "/frame/vn2thang9.png"
+    },
+    {
+      "id": 149,
+      "name": "We Are Bears Trắng",
+      "category": "Idol",
+      "type": "banv2",
+      "path": "/frame/wearebears-trang.png"
+    },
+    {
+      "id": 150,
+      "name": "We Are One",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/weareone.png"
+    },
+    {
+      "id": 151,
+      "name": "Y2X Nhật",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/y2xnhat.png"
+    },
+    {
+      "id": 152,
+      "name": "Yeah",
+      "category": "Cute",
+      "type": "banv2",
+      "path": "/frame/yeah.png"
+    }
+  ],
+  "defaultFrameMetadata": {
+    "banv1": {
+      "slots": [
+        {
+          "x": 6,
+          "y": 3.4,
+          "width": 88,
+          "height": 18.9
+        },
+        {
+          "x": 6,
+          "y": 23.3,
+          "width": 88,
+          "height": 18.9
+        },
+        {
+          "x": 6,
+          "y": 43.3,
+          "width": 88,
+          "height": 18.9
+        },
+        {
+          "x": 6,
+          "y": 63.1,
+          "width": 88,
+          "height": 18.9
+        }
+      ]
+    },
+    "banv2": {
+      "slots": [
+        {
+          "x": 6,
+          "y": 1.8,
+          "width": 90,
+          "height": 23
+        },
+        {
+          "x": 6,
+          "y": 25,
+          "width": 90,
+          "height": 23
+        },
+        {
+          "x": 6,
+          "y": 48,
+          "width": 90,
+          "height": 23
+        },
+        {
+          "x": 6,
+          "y": 71,
+          "width": 90,
+          "height": 23
+        }
+      ]
+    }
+  },
+  "frameMetadata": {},
+  "languages": {
+    "available": ["VI", "EN", "CN"],
+    "default": "VI",
+    "translations": {
+      "VI": {
+        "adBanner": {
+          "line1": "chúng tớ nhận quảng cáo banner",
+          "line2": "để có kinh phí duy trì server photobooth",
+          "line3": "click để book vị trí đẹp này! ✨"
+        },
+        "title": "SFotor",
+        "tagline": "ai cũng có quyền được chụp photobooth",
+        "startButton": "BẮT ĐẦU",
+        "footer": {
+          "faq": "Hỏi & Đáp",
+          "credit": "made by Sơn Đình Sơn"
+        },
+        "fullscreenPrompt": {
+          "title": "Trải nghiệm tốt hơn ở chế độ toàn màn hình",
+          "text": "Ứng dụng này được thiết kế để xem toàn màn hình",
+          "skip": "Bỏ qua",
+          "fullscreen": "Toàn màn hình"
+        },
+        "donateModal": {
+          "title": "Cảm ơn bạn đã ủng hộ!",
+          "text1": "Chiếc Photo-Booth ảo này được tạo ra với niềm đam mê chụp ảnh, với \"sứ mệnh\" phấn đấu đến năm 2025 mỗi nhà sẽ có một chiếc phô tô bút tại gia.",
+          "text2": "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #fotogramstudios nhé!",
+          "donationTitle": "Khao tui một ly trà sữa 💛🧡"
+        },
+        "welcome": {
+          "title": "SFotor chào bạn nhé! ",
+          "text": "Nhớ rủ bạn-bè-bồ chụp cùng và quay lại quá trình làm kỷ niệm🎉",
+          "button": "Bắt đầu chụp ảnh"
+        },
+        "shoot": {
+          "effectsTitle": "Hiệu Ứng Ảnh",
+          "blackWhite": "Đen Trắng",
+          "brightness": "Độ Sáng",
+          "classic": "Cổ Điển",
+          "blur": "Mờ",
+          "lensFlare": "Thêm vệt nắng",
+          "filmGrain": "Thêm nhiễu hạt",
+          "capturedPhotos": "Ảnh Đã Chụp",
+          "photoLabel": "Ảnh",
+          "captureSingle": "Chụp từng kiểu",
+          "captureContinuous": "Chụp liên tiếp",
+          "nextButton": "Tiếp theo",
+          "cameraError": "Không thể truy cập camera. Vui lòng cho phép quyền truy cập camera."
+        },
+        "frameSelection": {
+          "title": "ôi giời ơi đẹp như thiên thần thế này!",
+          "subtitle": "mời thiên thần chọn khung và tải ảnh về:",
+          "retake": "CHỤP LẠI",
+          "print": "ĐẶT IN ẢNH"
+        }
+      },
+      "EN": {
+        "adBanner": {
+          "line1": "we accept banner ads",
+          "line2": "to cover photobooth server maintenance costs",
+          "line3": "click to book this nice spot! ✨"
+        },
+        "title": "SFotor",
+        "tagline": "everyone has the right to take photobooth photos",
+        "startButton": "START",
+        "footer": {
+          "faq": "Q&A",
+          "credit": "made by Sơn Đình Sơn"
+        },
+        "fullscreenPrompt": {
+          "title": "Better experience in full screen mode",
+          "text": "This application is designed to be viewed in full screen",
+          "skip": "Skip",
+          "fullscreen": "Full screen"
+        },
+        "donateModal": {
+          "title": "Thank you for your support!",
+          "text1": "This virtual Photo-Booth was created with a passion for photography, with the \"mission\" to strive until 2025, every home will have a photo booth at home.",
+          "text2": "If you enjoy this experience, don't forget to share behind-the-scenes videos with everyone and hashtag #fotogramstudios!",
+          "donationTitle": "Treat me to a milk tea 💛🧡"
+        },
+        "welcome": {
+          "title": "Welcome to SFotor!",
+          "text": "Create beautiful photobooth photos with unique frames",
+          "button": "Start taking photos"
+        },
+        "shoot": {
+          "effectsTitle": "Image Effects",
+          "blackWhite": "Black & White",
+          "brightness": "Brightness",
+          "classic": "Classic",
+          "blur": "Blur",
+          "lensFlare": "Add sun flare",
+          "filmGrain": "Add film grain",
+          "capturedPhotos": "Captured photos",
+          "photoLabel": "Photo",
+          "captureSingle": "Take 1/4 style photos",
+          "captureContinuous": "Continuous capture",
+          "nextButton": "Next",
+          "cameraError": "Cannot access camera. Please allow camera permission."
+        },
+        "frameSelection": {
+          "title": "Oh my god, so beautiful like an angel!",
+          "subtitle": "Please choose a frame and download your photo:",
+          "retake": "RETAKE",
+          "print": "PRINT PHOTO"
+        }
+      },
+      "CN": {
+        "adBanner": {
+          "line1": "我们接受横幅广告",
+          "line2": "以支付照片亭服务器维护费用",
+          "line3": "点击预订这个好位置！ ✨"
+        },
+        "title": "SFotor",
+        "tagline": "每个人都有权拍摄照片亭照片",
+        "startButton": "开始",
+        "footer": {
+          "faq": "问答",
+          "credit": "made by Sơn Đình Sơn"
+        },
+        "fullscreenPrompt": {
+          "title": "全屏模式体验更好",
+          "text": "此应用程序设计为全屏查看",
+          "skip": "跳过",
+          "fullscreen": "全屏"
+        },
+        "donateModal": {
+          "title": "感谢您的支持！",
+          "text1": "这个虚拟照片亭是出于对摄影的热情而创建的，其\"使命\"是努力到2025年，每个家庭都将拥有一个家庭照片亭。",
+          "text2": "如果您喜欢这个体验，别忘了与大家分享幕后视频并标记 #fotogramstudios！",
+          "donationTitle": "请我喝一杯奶茶 💛🧡"
+        },
+        "welcome": {
+          "title": "欢迎来到 SFotor！",
+          "text": "使用独特的相框创建美丽的照片亭照片",
+          "button": "开始拍照"
+        },
+        "shoot": {
+          "effectsTitle": "图像效果",
+          "blackWhite": "黑白",
+          "brightness": "亮度",
+          "classic": "经典",
+          "blur": "模糊",
+          "lensFlare": "添加太阳光斑",
+          "filmGrain": "添加胶片颗粒",
+          "capturedPhotos": "已拍摄的照片",
+          "photoLabel": "照片",
+          "captureSingle": "拍摄1/4风格照片",
+          "captureContinuous": "连续拍摄",
+          "nextButton": "下一步",
+          "cameraError": "无法访问相机。请允许相机权限。"
+        },
+        "frameSelection": {
+          "title": "哦天哪，像天使一样美丽！",
+          "subtitle": "请选择相框并下载您的照片：",
+          "retake": "重新拍摄",
+          "print": "打印照片"
+        }
+      }
+    }
+  }
+}
