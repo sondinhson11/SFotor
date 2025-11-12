@@ -30,8 +30,22 @@ function RedirectHandler() {
 }
 
 function App() {
+  // Auto-detect basename based on current hostname
+  // Use "/" for custom domain, "/SFotor/" for GitHub Pages
+  const getBasename = () => {
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      // If using custom domain (not github.io), use "/"
+      if (hostname === "sfotor.online" || hostname === "www.sfotor.online") {
+        return "/";
+      }
+    }
+    // Default to "/SFotor/" for GitHub Pages
+    return "/SFotor";
+  };
+
   return (
-    <Router basename="/SFotor">
+    <Router basename={getBasename()}>
       <RedirectHandler />
       <Routes>
         <Route path="/" element={<Home />} />

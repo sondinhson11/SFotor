@@ -10,7 +10,17 @@ export async function loadConfig() {
   }
 
   try {
-    const baseUrl = import.meta.env.BASE_URL;
+    // Auto-detect base URL based on current hostname
+    let baseUrl = import.meta.env.BASE_URL;
+
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      // If using custom domain, use "/" instead of "/SFotor/"
+      if (hostname === "sfotor.online" || hostname === "www.sfotor.online") {
+        baseUrl = "/";
+      }
+    }
+
     const response = await fetch(`${baseUrl}config.json`);
     if (!response.ok) {
       throw new Error(`Failed to load config: ${response.statusText}`);

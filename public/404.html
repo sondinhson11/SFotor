@@ -21,7 +21,12 @@
       // project name. For example, if your repo name is 'my-repo' and your
       // site is at https://username.github.io/my-repo, then segmentCount should
       // be set to 1. If you're using a custom domain, then set segmentCount to 0.
-      var segmentCount = 1;
+      // Auto-detect: use 0 for custom domain, 1 for GitHub Pages
+      var hostname = window.location.hostname;
+      var segmentCount =
+        hostname === "sfotor.online" || hostname === "www.sfotor.online"
+          ? 0
+          : 1;
 
       var l = window.location;
       l.replace(
