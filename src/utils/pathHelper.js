@@ -15,7 +15,12 @@ export function getAssetPath(path) {
   if (typeof window !== "undefined") {
     const hostname = window.location.hostname;
     // If using custom domain, use "/" instead of "/SFotor/"
-    if (hostname === "sfotor.online" || hostname === "www.sfotor.online") {
+    if (
+      hostname === "sfotor.online" ||
+      hostname === "www.sfotor.online" ||
+      hostname === "sfotor.site" ||
+      hostname === "www.sfotor.site"
+    ) {
       baseUrl = "/";
     }
   }

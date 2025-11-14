@@ -2,10 +2,35 @@
 // File config.json không bị mã hóa khi build, dễ chỉnh sửa
 
 let cachedConfig = null;
+let forceReload = false; // Flag để force reload từ server
+let cacheTimestamp = null; // Timestamp của lần cache cuối
+const CACHE_MAX_AGE = 5 * 60 * 1000; // Cache tối đa 5 phút
 
-export async function loadConfig() {
-  // Nếu đã load rồi thì trả về cache
-  if (cachedConfig) {
+export async function loadConfig(force = false) {
+  // Nếu force = true, bỏ qua cache
+  if (force) {
+    forceReload = true;
+    cachedConfig = null;
+    cacheTimestamp = null;
+  }
+
+  // Kiểm tra cache có cũ quá không (nếu cache > 5 phút thì reload)
+  const now = Date.now();
+  if (cachedConfig && cacheTimestamp && !forceReload) {
+    const cacheAge = now - cacheTimestamp;
+    if (cacheAge > CACHE_MAX_AGE) {
+      console.log(
+        `Config cache đã cũ (${Math.round(
+          cacheAge / 1000
+        )}s), reload từ server...`
+      );
+      forceReload = true;
+      cachedConfig = null;
+    }
+  }
+
+  // Nếu đã load rồi và không force, trả về cache
+  if (cachedConfig && !forceReload) {
     return cachedConfig;
   }
 
@@ -16,20 +41,46 @@ export async function loadConfig() {
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
       // If using custom domain, use "/" instead of "/SFotor/"
-      if (hostname === "sfotor.online" || hostname === "www.sfotor.online") {
+      if (
+        hostname === "sfotor.online" ||
+        hostname === "www.sfotor.online" ||
+        hostname === "sfotor.site" ||
+        hostname === "www.sfotor.site"
+      ) {
         baseUrl = "/";
       }
     }
 
-    const response = await fetch(`${baseUrl}config.json`);
+    // Nếu force reload, thêm timestamp để bypass browser cache
+    const url = forceReload
+      ? `${baseUrl}config.json?t=${Date.now()}`
+      : `${baseUrl}config.json`;
+
+    const response = await fetch(url, {
+      cache: forceReload ? "no-cache" : "default",
+      headers: forceReload
+        ? {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          }
+        : {
+            "Cache-Control": "max-age=3600", // Cache 1 giờ
+          },
+    });
+
     if (!response.ok) {
       throw new Error(`Failed to load config: ${response.statusText}`);
     }
+
     const config = await response.json();
     cachedConfig = config;
+    cacheTimestamp = Date.now(); // Lưu timestamp của lần cache
+    forceReload = false; // Reset flag sau khi load xong
     return config;
   } catch (error) {
     console.error("Error loading config:", error);
+    forceReload = false; // Reset flag nếu có lỗi
     // Trả về config mặc định nếu không load được
     return {
       frames: [],
@@ -57,10 +108,38 @@ export async function loadConfig() {
   }
 }
 
-// // Hàm để reload config (dùng khi muốn refresh sau khi chỉnh sửa)
-// export function clearConfigCache() {
-//   cachedConfig = null;
-// }
+// Hàm để reload config (dùng khi muốn refresh sau khi chỉnh sửa)
+export function clearConfigCache() {
+  cachedConfig = null;
+  cacheTimestamp = null;
+  forceReload = true;
+}
+
+// Hàm để đánh dấu config đã được update (gọi sau khi upload thành công)
+export function markConfigUpdated() {
+  // Lưu timestamp vào localStorage để các tab khác biết
+  if (typeof window !== "undefined") {
+    localStorage.setItem("config_updated_at", Date.now().toString());
+  }
+  clearConfigCache();
+}
+
+// Hàm để kiểm tra xem config có được update không (từ tab khác)
+export function checkConfigUpdated() {
+  if (typeof window === "undefined") return false;
+
+  const updatedAt = localStorage.getItem("config_updated_at");
+  if (!updatedAt) return false;
+
+  const lastCheck = sessionStorage.getItem("last_config_check");
+  if (lastCheck && parseInt(lastCheck) >= parseInt(updatedAt)) {
+    return false; // Đã check rồi
+  }
+
+  // Nếu có update mới hơn lần check cuối
+  sessionStorage.setItem("last_config_check", updatedAt);
+  return true;
+}
 // ============================================
 // METADATA ĐƯỢC LOAD TỪ CONFIG.JSON
 // ============================================

@@ -68,7 +68,7 @@ export async function loadTranslations() {
         text1:
           'Chiếc Photo-Booth ảo này được tạo ra với niềm đam mê chụp ảnh, với "sứ mệnh" phấn đấu đến năm 2025 mỗi nhà sẽ có một chiếc phô tô bút tại gia.',
         text2:
-          "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #fotogramstudios nhé!",
+          "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #sfotor nhé!",
         donationTitle: "Khao tui một ly trà sữa 💛🧡",
       },
     };

@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./FrameSelection.css";
 import {
   getFrameMetadata,
   calculateSlotPosition,
   detectSlotsFromFrame,
 } from "../utils/frameMetadata";
-import { loadConfig } from "../utils/configLoader";
+import {
+  loadConfig,
+  checkConfigUpdated,
+  clearConfigCache,
+} from "../utils/configLoader";
 import {
   getCurrentLanguage,
   setLanguage,
@@ -416,6 +421,8 @@ const FRAMES = [
 function FrameSelection() {
   const location = useLocation();
   const navigate = useNavigate();
+  const determineCompactLayout = () =>
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
   const [frames, setFrames] = useState([]);
   const [selectedFrame, setSelectedFrame] = useState(null);
@@ -425,6 +432,9 @@ function FrameSelection() {
   const [translations, setTranslations] = useState(null);
   const [availableLanguages, setAvailableLanguages] = useState(["VI", "EN"]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isCompactLayout, setIsCompactLayout] = useState(
+    determineCompactLayout
+  );
   const photos = location.state?.photos || [];
 
   // Load translations và available languages
@@ -465,6 +475,12 @@ function FrameSelection() {
   useEffect(() => {
     async function loadFrames() {
       try {
+        // Kiểm tra xem config có được update không (từ admin page)
+        if (checkConfigUpdated()) {
+          clearConfigCache();
+          console.log("Config đã được update, reload từ server...");
+        }
+
         const config = await loadConfig();
         setFrames(config.frames || []);
         if (config.frames && config.frames.length > 0) {
@@ -478,6 +494,20 @@ function FrameSelection() {
       }
     }
     loadFrames();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const handleResize = () => {
+      setIsCompactLayout(determineCompactLayout());
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Load frame image and metadata when selected
@@ -499,7 +529,7 @@ function FrameSelection() {
   }, [selectedFrame]);
 
   const filteredFrames =
-    selectedCategory === "Tất cả"
+    isCompactLayout || selectedCategory === "Tất cả"
       ? frames
       : frames.filter((frame) => frame.category === selectedCategory);
 
@@ -550,13 +580,26 @@ function FrameSelection() {
           let drawY = slot.y;
 
           if (photoAspect > slotAspect) {
-            // Ảnh rộng hơn slot, fit theo chiều cao
+            // Ảnh rộng hơn slot: fit theo chiều cao, căn giữa ngang
+            drawHeight = slot.height;
             drawWidth = slot.height * photoAspect;
             drawX = slot.x + (slot.width - drawWidth) / 2;
           } else {
-            // Ảnh cao hơn slot, fit theo chiều rộng
+            // Ảnh cao hơn slot: fit theo chiều rộng, ưu tiên phần phía trên
+            drawWidth = slot.width;
             drawHeight = slot.width / photoAspect;
-            drawY = slot.y + (slot.height - drawHeight) / 2;
+            drawX = slot.x;
+            const extraHeight = drawHeight - slot.height;
+            let proposedY = slot.y - extraHeight * 0.3;
+            const maxY = slot.y;
+            const minY = slot.y + slot.height - drawHeight;
+            if (proposedY > maxY) {
+              proposedY = maxY;
+            }
+            if (proposedY < minY) {
+              proposedY = minY;
+            }
+            drawY = proposedY;
           }
 
           // Lưu thông tin ảnh để vẽ sau
@@ -623,7 +666,13 @@ function FrameSelection() {
     };
 
     frameImg.onerror = () => {
-      alert("Không thể tải khung ảnh. Vui lòng thử lại.");
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi Tải Khung Ảnh",
+        text: "Không thể tải khung ảnh. Vui lòng thử lại.",
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
     };
   };
 
@@ -715,7 +764,11 @@ function FrameSelection() {
                   onClick={downloadPhoto}
                   disabled={photos.length === 0 || !frameImage}
                 >
-                  <span>⬇</span> Download
+                  <span>
+                    {translations.frameSelection?.download ||
+                      translations.shoot?.download ||
+                      "Download"}
+                  </span>
                 </button>
               </div>
             ) : (
@@ -725,19 +778,21 @@ function FrameSelection() {
         </div>
 
         <div className="frame-selection-panel">
-          <div className="category-tabs">
-            {FRAME_CATEGORIES.map((category) => (
-              <button
-                key={category}
-                className={`category-tab ${
-                  selectedCategory === category ? "active" : ""
-                }`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+          {!isCompactLayout && (
+            <div className="category-tabs">
+              {FRAME_CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  className={`category-tab ${
+                    selectedCategory === category ? "active" : ""
+                  }`}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="frames-grid">
             {filteredFrames.map((frame) => (
@@ -753,6 +808,7 @@ function FrameSelection() {
                     src={getAssetPath(frame.path)}
                     alt={frame.name}
                     className="frame-thumbnail"
+                    loading="lazy"
                     onError={(e) => {
                       e.target.style.display = "none";
                       e.target.nextSibling.style.display = "flex";

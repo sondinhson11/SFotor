@@ -732,19 +732,15 @@
     justify-content: center;
 }
 
-.qr-code {
+.qr-image {
     width: 240px;
     height: 240px;
-    background: linear-gradient(135deg, #FFF0F8 0%, #FFE0F0 100%);
-    border: 4px solid rgba(245, 168, 232, 0.6);
     border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #8B5B7B;
-    font-size: 1rem;
-    font-weight: 700;
+    border: 4px solid rgba(245, 168, 232, 0.6);
     box-shadow: 0 8px 25px rgba(245, 168, 232, 0.25);
+    object-fit: contain;
+    background: white;
+    padding: 12px;
 }
 
 .paypal-link {

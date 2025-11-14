@@ -804,6 +804,13 @@
       "category": "Cute",
       "type": "banv2",
       "path": "/frame/yeah.png"
+    },
+    {
+      "id": 153,
+      "name": "Kuromi",
+      "category": "Cute",
+      "type": "banv1",
+      "path": "/frame/kuromi-frame.png"
     }
   ],
   "defaultFrameMetadata": {
@@ -891,7 +898,7 @@
         "donateModal": {
           "title": "Cảm ơn bạn đã ủng hộ!",
           "text1": "Chiếc Photo-Booth ảo này được tạo ra với niềm đam mê chụp ảnh, với \"sứ mệnh\" phấn đấu đến năm 2025 mỗi nhà sẽ có một chiếc phô tô bút tại gia.",
-          "text2": "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #fotogramstudios nhé!",
+          "text2": "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #sfotor nhé!",
           "donationTitle": "Khao tui một ly trà sữa 💛🧡"
         },
         "welcome": {
@@ -915,10 +922,9 @@
           "cameraError": "Không thể truy cập camera. Vui lòng cho phép quyền truy cập camera."
         },
         "frameSelection": {
-          "title": "ôi giời ơi đẹp như thiên thần thế này!",
-          "subtitle": "mời thiên thần chọn khung và tải ảnh về:",
           "retake": "CHỤP LẠI",
-          "print": "ĐẶT IN ẢNH"
+          "print": "ĐẶT IN ẢNH",
+          "download": "TẢI VỀ"
         }
       },
       "EN": {
@@ -943,7 +949,7 @@
         "donateModal": {
           "title": "Thank you for your support!",
           "text1": "This virtual Photo-Booth was created with a passion for photography, with the \"mission\" to strive until 2025, every home will have a photo booth at home.",
-          "text2": "If you enjoy this experience, don't forget to share behind-the-scenes videos with everyone and hashtag #fotogramstudios!",
+          "text2": "If you enjoy this experience, don't forget to share behind-the-scenes videos with everyone and hashtag #sfotor!",
           "donationTitle": "Treat me to a milk tea 💛🧡"
         },
         "welcome": {
@@ -970,7 +976,8 @@
           "title": "Oh my god, so beautiful like an angel!",
           "subtitle": "Please choose a frame and download your photo:",
           "retake": "RETAKE",
-          "print": "PRINT PHOTO"
+          "print": "PRINT PHOTO",
+          "download": "DOWNLOAD"
         }
       },
       "CN": {
@@ -995,7 +1002,7 @@
         "donateModal": {
           "title": "感谢您的支持！",
           "text1": "这个虚拟照片亭是出于对摄影的热情而创建的，其\"使命\"是努力到2025年，每个家庭都将拥有一个家庭照片亭。",
-          "text2": "如果您喜欢这个体验，别忘了与大家分享幕后视频并标记 #fotogramstudios！",
+          "text2": "如果您喜欢这个体验，别忘了与大家分享幕后视频并标记 #sfotor！",
           "donationTitle": "请我喝一杯奶茶 💛🧡"
         },
         "welcome": {
@@ -1022,7 +1029,8 @@
           "title": "哦天哪，像天使一样美丽！",
           "subtitle": "请选择相框并下载您的照片：",
           "retake": "重新拍摄",
-          "print": "打印照片"
+          "print": "打印照片",
+          "download": "下载"
         }
       }
     }

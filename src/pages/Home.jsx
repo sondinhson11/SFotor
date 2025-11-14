@@ -288,7 +288,7 @@ function Home() {
               </p>
               <p>
                 {translations.donateModal?.text2 ||
-                  "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #fotogramstudios nhé!"}
+                  "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #sfotor nhé!"}
               </p>
             </div>
 
@@ -306,16 +306,19 @@ function Home() {
                   "Khao tui một ly trà sữa 💛🧡"}
               </h3>
               <div className="qr-code-placeholder">
-                {/* QR Code placeholder - bạn có thể thay bằng QR code thật */}
-                <div className="qr-code">QR CODE</div>
+                <img
+                  src={getAssetPath("/qr.jpg")}
+                  alt="QR code"
+                  className="qr-image"
+                />
               </div>
               <a
-                href="https://paypal.me/tuanangVN"
+                href="https://paypal.me/sondinhson12"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="paypal-link"
               >
-                Paypal.me/tuanangVN
+                Paypal.me/sondinhson12
               </a>
             </div>
 

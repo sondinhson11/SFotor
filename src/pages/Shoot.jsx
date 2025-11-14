@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./Shoot.css";
 import {
   getCurrentLanguage,
@@ -410,10 +411,15 @@ function Shoot() {
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
-      alert(
-        translations?.shoot?.cameraError ||
-          "Không thể truy cập camera. Vui lòng cho phép quyền truy cập camera."
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi Camera",
+        text:
+          translations?.shoot?.cameraError ||
+          "Không thể truy cập camera. Vui lòng cho phép quyền truy cập camera.",
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
     }
   };
 
@@ -1210,7 +1216,10 @@ function Shoot() {
                   className="overlay-effect lens-flare-overlay"
                   style={{ opacity: lensFlare / 100 }}
                 >
-                  <img src="/filter/lens-flare.webp" alt="Lens Flare" />
+                  <img
+                    src={getAssetPath("/filter/lens-flare.webp")}
+                    alt="Lens Flare"
+                  />
                 </div>
               )}
               {/* Film Grain Overlay */}
@@ -1219,7 +1228,10 @@ function Shoot() {
                   className="overlay-effect film-grain-overlay"
                   style={{ opacity: filmGrain / 100 }}
                 >
-                  <img src="/filter/film-grain.webp" alt="Film Grain" />
+                  <img
+                    src={getAssetPath("/filter/film-grain.webp")}
+                    alt="Film Grain"
+                  />
                 </div>
               )}
             </div>
@@ -1407,7 +1419,7 @@ function Shoot() {
               </p>
               <p>
                 {translations.donateModal?.text2 ||
-                  "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #fotogramstudios nhé!"}
+                  "Nếu bạn enjoy trải nghiệm này, đừng quên chia sẻ video hậu trường với mọi người và hashtag #sfotor nhé!"}
               </p>
             </div>
 
@@ -1425,16 +1437,19 @@ function Shoot() {
                   "Khao tui một ly trà sữa 💛🧡"}
               </h3>
               <div className="qr-code-placeholder">
-                {/* QR Code placeholder - bạn có thể thay bằng QR code thật */}
-                <div className="qr-code">QR CODE</div>
+                <img
+                  src={getAssetPath("/qr.jpg")}
+                  alt="QR code"
+                  className="qr-image"
+                />
               </div>
               <a
-                href="https://paypal.me/tuanangVN"
+                href="https://paypal.me/sondinhson12"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="paypal-link"
               >
-                Paypal.me/tuanangVN
+                Paypal.me/sondinhson12
               </a>
             </div>
 
