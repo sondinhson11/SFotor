@@ -15,7 +15,8 @@ import Swal from "sweetalert2";
 import JSZip from "jszip";
 import "./Admin.css";
 
-const FRAME_CATEGORIES = [
+// Default categories và types (fallback nếu config chưa có)
+const DEFAULT_CATEGORIES = [
   "Basic",
   "Birthday",
   "Countries",
@@ -26,7 +27,7 @@ const FRAME_CATEGORIES = [
   "Other",
 ];
 
-const FRAME_TYPES = ["banv1", "banv2"];
+const DEFAULT_TYPES = ["banv1", "banv2"];
 
 function Admin() {
   const [config, setConfig] = useState(null);
@@ -36,10 +37,38 @@ function Admin() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [frameImages, setFrameImages] = useState(new Map()); // Lưu các file ảnh đã upload
-  const [activeTab, setActiveTab] = useState("frames"); // "frames" hoặc "metadata"
+  const [activeTab, setActiveTab] = useState("frames"); // "frames", "metadata", hoặc "categories"
   const [editingMetadata, setEditingMetadata] = useState(null); // Đang chỉnh sửa metadata nào
   const [showMetadataForm, setShowMetadataForm] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null); // Đang chỉnh sửa category nào
+  const [editingType, setEditingType] = useState(null); // Đang chỉnh sửa type nào
+  const [newCategoryName, setNewCategoryName] = useState(""); // Tên category mới
+  const [newTypeName, setNewTypeName] = useState(""); // Tên type mới
   const navigate = useNavigate();
+
+  // Lấy categories từ config hoặc dùng default
+  const getCategories = () => {
+    if (
+      config?.categories &&
+      Array.isArray(config.categories) &&
+      config.categories.length > 0
+    ) {
+      return config.categories;
+    }
+    return DEFAULT_CATEGORIES;
+  };
+
+  // Lấy types từ config hoặc dùng default
+  const getTypes = () => {
+    if (
+      config?.types &&
+      Array.isArray(config.types) &&
+      config.types.length > 0
+    ) {
+      return config.types;
+    }
+    return DEFAULT_TYPES;
+  };
 
   useEffect(() => {
     // Check authentication
@@ -93,11 +122,15 @@ function Admin() {
         ? Math.max(...config.frames.map((f) => f.id)) + 1
         : 1;
 
+    // Load categories và types từ config
+    const categories = getCategories();
+    const types = getTypes();
+
     const newFrame = {
       id: newId,
       name: "",
-      category: "Basic",
-      type: "banv1",
+      category: categories[0] || "Basic",
+      type: types[0] || "banv1",
       path: "",
     };
 
@@ -333,6 +366,9 @@ function Admin() {
       const cleanedConfig = {
         ...config,
         frames: cleanedFrames,
+        // Thêm version/timestamp để cache busting
+        _version: Date.now(),
+        _updatedAt: new Date().toISOString(),
       };
 
       const configStr = JSON.stringify(cleanedConfig, null, 2);
@@ -606,8 +642,19 @@ function Admin() {
                     : ""
                 }
                 <p style="margin-top: 1rem; color: #4CAF50;">
-                  <strong>Website đã được cập nhật! Người dùng sẽ thấy frame mới sau khi refresh.</strong>
+                  <strong>Website đã được cập nhật!</strong>
                 </p>
+                <div style="background: #e7f3ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; text-align: left;">
+                  <p style="margin: 0 0 0.5rem 0; font-weight: bold;">📱 Hướng dẫn để thấy update trên điện thoại:</p>
+                  <ol style="margin: 0; padding-left: 1.5rem; font-size: 0.9rem;">
+                    <li>Đóng và mở lại ứng dụng (swipe up để đóng app hoàn toàn)</li>
+                    <li>Hoặc làm mới trang (pull down để refresh)</li>
+                    <li>Nếu vẫn không thấy: Xóa cache trình duyệt (Settings → Clear browsing data)</li>
+                  </ol>
+                  <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #666;">
+                    💡 Hệ thống đã thêm version vào config để bypass cache. Trên máy tính sẽ thấy ngay, trên điện thoại có thể cần refresh.
+                  </p>
+                </div>
                 <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
                   💡 Hệ thống sẽ tự động kiểm tra lại sau 1 giây để đảm bảo dữ liệu đúng.
                 </p>
@@ -761,6 +808,323 @@ function Admin() {
     }
   };
 
+  // Hàm xử lý categories
+  const handleAddCategory = () => {
+    if (!newCategoryName.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Thiếu thông tin",
+        text: "Vui lòng nhập tên danh mục",
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
+      return;
+    }
+
+    const categories = getCategories();
+    if (categories.includes(newCategoryName.trim())) {
+      Swal.fire({
+        icon: "error",
+        title: "Danh mục đã tồn tại",
+        text: `Danh mục "${newCategoryName.trim()}" đã có trong danh sách`,
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
+      return;
+    }
+
+    const categoryName = newCategoryName.trim();
+    const newConfig = { ...config };
+    // Lấy danh sách categories hiện tại (từ config hoặc default)
+    const currentCategories = getCategories();
+    // Đảm bảo categories được lưu vào config
+    if (!newConfig.categories) {
+      newConfig.categories = [...currentCategories];
+    }
+    // Thêm category mới nếu chưa có
+    if (!newConfig.categories.includes(categoryName)) {
+      newConfig.categories = [...newConfig.categories, categoryName];
+    }
+    setConfig(newConfig);
+    setNewCategoryName("");
+
+    Swal.fire({
+      icon: "success",
+      title: "Đã thêm danh mục!",
+      text: `Danh mục "${categoryName}" đã được thêm. Chuyển sang tab Frames...`,
+      confirmButtonText: "OK",
+      confirmButtonColor: "#E85A8D",
+    }).then(() => {
+      setActiveTab("frames");
+    });
+  };
+
+  const handleEditCategory = (oldName) => {
+    Swal.fire({
+      title: "Sửa danh mục",
+      input: "text",
+      inputLabel: "Tên danh mục mới",
+      inputValue: oldName,
+      showCancelButton: true,
+      confirmButtonText: "Lưu",
+      cancelButtonText: "Hủy",
+      confirmButtonColor: "#E85A8D",
+      inputValidator: (value) => {
+        if (!value || !value.trim()) {
+          return "Vui lòng nhập tên danh mục!";
+        }
+        const categories = getCategories();
+        if (value.trim() !== oldName && categories.includes(value.trim())) {
+          return "Danh mục này đã tồn tại!";
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const newName = result.value.trim();
+        const newConfig = { ...config };
+        if (!newConfig.categories) {
+          newConfig.categories = [];
+        }
+
+        // Cập nhật tên category trong danh sách
+        const categoryIndex = newConfig.categories.indexOf(oldName);
+        if (categoryIndex >= 0) {
+          newConfig.categories[categoryIndex] = newName;
+        }
+
+        // Cập nhật tất cả frames có category cũ
+        if (newConfig.frames) {
+          newConfig.frames = newConfig.frames.map((frame) => {
+            if (frame.category === oldName) {
+              return { ...frame, category: newName };
+            }
+            return frame;
+          });
+        }
+
+        setConfig(newConfig);
+        Swal.fire({
+          icon: "success",
+          title: "Đã cập nhật!",
+          text: `Danh mục đã được đổi từ "${oldName}" sang "${newName}"`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#E85A8D",
+        });
+      }
+    });
+  };
+
+  const handleDeleteCategory = (categoryName) => {
+    // Kiểm tra xem có frame nào đang dùng category này không
+    const framesUsingCategory =
+      config?.frames?.filter((f) => f.category === categoryName) || [];
+
+    if (framesUsingCategory.length > 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Không thể xóa",
+        html: `Danh mục "${categoryName}" đang được sử dụng bởi ${framesUsingCategory.length} frame(s).<br/>Vui lòng đổi category của các frame này trước khi xóa.`,
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: "Xóa danh mục?",
+      text: `Bạn có chắc chắn muốn xóa danh mục "${categoryName}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Xóa",
+      cancelButtonText: "Hủy",
+      confirmButtonColor: "#E85A8D",
+      cancelButtonColor: "#999",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newConfig = { ...config };
+        if (newConfig.categories) {
+          newConfig.categories = newConfig.categories.filter(
+            (cat) => cat !== categoryName
+          );
+        }
+        setConfig(newConfig);
+        Swal.fire({
+          icon: "success",
+          title: "Đã xóa!",
+          text: `Danh mục "${categoryName}" đã được xóa`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#E85A8D",
+        });
+      }
+    });
+  };
+
+  // Hàm xử lý types
+  const handleAddType = () => {
+    if (!newTypeName.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Thiếu thông tin",
+        text: "Vui lòng nhập tên loại",
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
+      return;
+    }
+
+    const types = getTypes();
+    const typeName = newTypeName.trim();
+    if (types.includes(typeName)) {
+      Swal.fire({
+        icon: "error",
+        title: "Loại đã tồn tại",
+        text: `Loại "${typeName}" đã có trong danh sách`,
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
+      return;
+    }
+
+    const newConfig = { ...config };
+    // Lấy danh sách types hiện tại (từ config hoặc default)
+    const currentTypes = getTypes();
+    // Đảm bảo types được lưu vào config
+    if (!newConfig.types) {
+      newConfig.types = [...currentTypes];
+    }
+    // Thêm type mới nếu chưa có
+    if (!newConfig.types.includes(typeName)) {
+      newConfig.types = [...newConfig.types, typeName];
+    }
+    setConfig(newConfig);
+    setNewTypeName("");
+
+    Swal.fire({
+      icon: "success",
+      title: "Đã thêm loại!",
+      text: `Loại "${typeName}" đã được thêm. Chuyển sang tab Frames...`,
+      confirmButtonText: "OK",
+      confirmButtonColor: "#E85A8D",
+    }).then(() => {
+      setActiveTab("frames");
+    });
+  };
+
+  const handleEditType = (oldName) => {
+    Swal.fire({
+      title: "Sửa loại",
+      input: "text",
+      inputLabel: "Tên loại mới",
+      inputValue: oldName,
+      showCancelButton: true,
+      confirmButtonText: "Lưu",
+      cancelButtonText: "Hủy",
+      confirmButtonColor: "#E85A8D",
+      inputValidator: (value) => {
+        if (!value || !value.trim()) {
+          return "Vui lòng nhập tên loại!";
+        }
+        const types = getTypes();
+        if (value.trim() !== oldName && types.includes(value.trim())) {
+          return "Loại này đã tồn tại!";
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const newName = result.value.trim();
+        const newConfig = { ...config };
+        if (!newConfig.types) {
+          newConfig.types = [];
+        }
+
+        // Cập nhật tên type trong danh sách
+        const typeIndex = newConfig.types.indexOf(oldName);
+        if (typeIndex >= 0) {
+          newConfig.types[typeIndex] = newName;
+        }
+
+        // Cập nhật tất cả frames có type cũ
+        if (newConfig.frames) {
+          newConfig.frames = newConfig.frames.map((frame) => {
+            if (frame.type === oldName) {
+              return { ...frame, type: newName };
+            }
+            return frame;
+          });
+        }
+
+        // Cập nhật defaultFrameMetadata nếu có
+        if (
+          newConfig.defaultFrameMetadata &&
+          newConfig.defaultFrameMetadata[oldName]
+        ) {
+          newConfig.defaultFrameMetadata[newName] =
+            newConfig.defaultFrameMetadata[oldName];
+          delete newConfig.defaultFrameMetadata[oldName];
+        }
+
+        setConfig(newConfig);
+        Swal.fire({
+          icon: "success",
+          title: "Đã cập nhật!",
+          text: `Loại đã được đổi từ "${oldName}" sang "${newName}"`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#E85A8D",
+        });
+      }
+    });
+  };
+
+  const handleDeleteType = (typeName) => {
+    // Kiểm tra xem có frame nào đang dùng type này không
+    const framesUsingType =
+      config?.frames?.filter((f) => f.type === typeName) || [];
+
+    if (framesUsingType.length > 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Không thể xóa",
+        html: `Loại "${typeName}" đang được sử dụng bởi ${framesUsingType.length} frame(s).<br/>Vui lòng đổi type của các frame này trước khi xóa.`,
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#E85A8D",
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: "Xóa loại?",
+      text: `Bạn có chắc chắn muốn xóa loại "${typeName}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Xóa",
+      cancelButtonText: "Hủy",
+      confirmButtonColor: "#E85A8D",
+      cancelButtonColor: "#999",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newConfig = { ...config };
+        if (newConfig.types) {
+          newConfig.types = newConfig.types.filter((type) => type !== typeName);
+        }
+        // Xóa defaultFrameMetadata nếu có
+        if (
+          newConfig.defaultFrameMetadata &&
+          newConfig.defaultFrameMetadata[typeName]
+        ) {
+          delete newConfig.defaultFrameMetadata[typeName];
+        }
+        setConfig(newConfig);
+        Swal.fire({
+          icon: "success",
+          title: "Đã xóa!",
+          text: `Loại "${typeName}" đã được xóa`,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#E85A8D",
+        });
+      }
+    });
+  };
+
   const filteredFrames =
     config?.frames.filter((frame) => {
       const matchesSearch =
@@ -818,6 +1182,14 @@ function Admin() {
             📷 Quản lý Frames
           </button>
           <button
+            className={`admin-tab ${
+              activeTab === "categories" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("categories")}
+          >
+            📂 Quản lý Danh mục & Loại
+          </button>
+          <button
             className={`admin-tab ${activeTab === "metadata" ? "active" : ""}`}
             onClick={() => setActiveTab("metadata")}
           >
@@ -849,7 +1221,7 @@ function Admin() {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
                   <option value="All">Tất cả danh mục</option>
-                  {FRAME_CATEGORIES.map((cat) => (
+                  {getCategories().map((cat) => (
                     <option key={cat} value={cat}>
                       {cat}
                     </option>
@@ -919,7 +1291,7 @@ function Admin() {
                           })
                         }
                       >
-                        {FRAME_CATEGORIES.map((cat) => (
+                        {getCategories().map((cat) => (
                           <option key={cat} value={cat}>
                             {cat}
                           </option>
@@ -937,7 +1309,7 @@ function Admin() {
                           })
                         }
                       >
-                        {FRAME_TYPES.map((type) => (
+                        {getTypes().map((type) => (
                           <option key={type} value={type}>
                             {type}
                           </option>
@@ -1069,6 +1441,138 @@ function Admin() {
           </>
         )}
 
+        {/* Categories Tab */}
+        {activeTab === "categories" && (
+          <div className="admin-categories-section">
+            <div className="admin-metadata-header">
+              <h2>Quản lý Danh mục và Loại Frame</h2>
+              <p>Thêm, sửa, xóa danh mục và loại frame</p>
+            </div>
+
+            {/* Categories Section */}
+            <div className="admin-categories-grid">
+              <div className="admin-category-section">
+                <h3>📂 Danh mục (Categories)</h3>
+                <div className="admin-add-item-form">
+                  <input
+                    type="text"
+                    placeholder="Nhập tên danh mục mới..."
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        handleAddCategory();
+                      }
+                    }}
+                    className="admin-input"
+                  />
+                  <button
+                    className="admin-btn admin-btn-primary"
+                    onClick={handleAddCategory}
+                  >
+                    ➕ Thêm Danh mục
+                  </button>
+                </div>
+                <div className="admin-items-list">
+                  {getCategories().map((category) => {
+                    const framesCount =
+                      config?.frames?.filter((f) => f.category === category)
+                        .length || 0;
+                    return (
+                      <div key={category} className="admin-item-card">
+                        <div className="admin-item-info">
+                          <h4>{category}</h4>
+                          <p>{framesCount} frame(s) đang sử dụng</p>
+                        </div>
+                        <div className="admin-item-actions">
+                          <button
+                            className="admin-btn admin-btn-edit"
+                            onClick={() => handleEditCategory(category)}
+                          >
+                            ✏️ Sửa
+                          </button>
+                          <button
+                            className="admin-btn admin-btn-delete"
+                            onClick={() => handleDeleteCategory(category)}
+                            disabled={framesCount > 0}
+                            title={
+                              framesCount > 0
+                                ? "Không thể xóa vì đang có frame sử dụng"
+                                : "Xóa danh mục"
+                            }
+                          >
+                            🗑️ Xóa
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Types Section */}
+              <div className="admin-category-section">
+                <h3>🏷️ Loại (Types)</h3>
+                <div className="admin-add-item-form">
+                  <input
+                    type="text"
+                    placeholder="Nhập tên loại mới..."
+                    value={newTypeName}
+                    onChange={(e) => setNewTypeName(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        handleAddType();
+                      }
+                    }}
+                    className="admin-input"
+                  />
+                  <button
+                    className="admin-btn admin-btn-primary"
+                    onClick={handleAddType}
+                  >
+                    ➕ Thêm Loại
+                  </button>
+                </div>
+                <div className="admin-items-list">
+                  {getTypes().map((type) => {
+                    const framesCount =
+                      config?.frames?.filter((f) => f.type === type).length ||
+                      0;
+                    return (
+                      <div key={type} className="admin-item-card">
+                        <div className="admin-item-info">
+                          <h4>{type}</h4>
+                          <p>{framesCount} frame(s) đang sử dụng</p>
+                        </div>
+                        <div className="admin-item-actions">
+                          <button
+                            className="admin-btn admin-btn-edit"
+                            onClick={() => handleEditType(type)}
+                          >
+                            ✏️ Sửa
+                          </button>
+                          <button
+                            className="admin-btn admin-btn-delete"
+                            onClick={() => handleDeleteType(type)}
+                            disabled={framesCount > 0}
+                            title={
+                              framesCount > 0
+                                ? "Không thể xóa vì đang có frame sử dụng"
+                                : "Xóa loại"
+                            }
+                          >
+                            🗑️ Xóa
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Metadata Tab */}
         {activeTab === "metadata" && (
           <div className="admin-metadata-section">
@@ -1077,8 +1581,95 @@ function Admin() {
               <p>Chỉnh sửa layout mặc định cho các loại frame (banv1, banv2)</p>
             </div>
 
+            <div
+              className="admin-metadata-header"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div></div>
+              <button
+                className="admin-btn admin-btn-primary"
+                onClick={() => {
+                  Swal.fire({
+                    title: "Thêm Default Frame Metadata",
+                    input: "text",
+                    inputLabel: "Tên loại frame mới",
+                    inputPlaceholder: "Ví dụ: banv3",
+                    showCancelButton: true,
+                    confirmButtonText: "Thêm",
+                    cancelButtonText: "Hủy",
+                    confirmButtonColor: "#E85A8D",
+                    inputValidator: (value) => {
+                      if (!value || !value.trim()) {
+                        return "Vui lòng nhập tên loại frame!";
+                      }
+                      const types = getTypes();
+                      if (types.includes(value.trim())) {
+                        return "Loại frame này đã tồn tại!";
+                      }
+                    },
+                  }).then((result) => {
+                    if (result.isConfirmed && result.value) {
+                      const newType = result.value.trim();
+                      const newConfig = { ...config };
+
+                      // Lấy danh sách types hiện tại (từ config hoặc default)
+                      const currentTypes = getTypes();
+                      // Đảm bảo types được lưu vào config
+                      if (!newConfig.types) {
+                        newConfig.types = [...currentTypes];
+                      }
+                      // Thêm type mới nếu chưa có
+                      if (!newConfig.types.includes(newType)) {
+                        newConfig.types = [...newConfig.types, newType];
+                      }
+
+                      // Giữ lại defaultFrameMetadata cũ và thêm mới
+                      if (!newConfig.defaultFrameMetadata) {
+                        newConfig.defaultFrameMetadata = {};
+                      }
+                      // Giữ lại tất cả metadata cũ bằng cách spread
+                      newConfig.defaultFrameMetadata = {
+                        ...newConfig.defaultFrameMetadata,
+                        [newType]: {
+                          slots: [{ x: 6, y: 10, width: 88, height: 18.9 }],
+                        },
+                      };
+
+                      setConfig(newConfig);
+
+                      // Mở form chỉnh sửa
+                      setEditingMetadata({
+                        type: "default",
+                        frameType: newType,
+                        metadata: JSON.parse(
+                          JSON.stringify(
+                            newConfig.defaultFrameMetadata[newType]
+                          )
+                        ),
+                      });
+                      setShowMetadataForm(true);
+
+                      Swal.fire({
+                        icon: "success",
+                        title: "Đã thêm!",
+                        text: `Loại "${newType}" đã được thêm vào danh sách Types và Default Frame Metadata`,
+                        confirmButtonText: "OK",
+                        confirmButtonColor: "#E85A8D",
+                      });
+                    }
+                  });
+                }}
+              >
+                ➕ Thêm Default Metadata
+              </button>
+            </div>
+
             <div className="admin-metadata-grid">
-              {FRAME_TYPES.map((type) => {
+              {getTypes().map((type) => {
                 const defaultMeta = config?.defaultFrameMetadata?.[type] || {
                   slots: [],
                 };
@@ -1101,150 +1692,85 @@ function Admin() {
                         </div>
                       )}
                     </div>
-                    <button
-                      className="admin-btn admin-btn-edit"
-                      onClick={() => {
-                        setEditingMetadata({
-                          type: "default",
-                          frameType: type,
-                          metadata: JSON.parse(JSON.stringify(defaultMeta)),
-                        });
-                        setShowMetadataForm(true);
-                      }}
-                    >
-                      ✏️ Chỉnh sửa
-                    </button>
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                      <button
+                        className="admin-btn admin-btn-edit"
+                        onClick={() => {
+                          setEditingMetadata({
+                            type: "default",
+                            frameType: type,
+                            metadata: JSON.parse(JSON.stringify(defaultMeta)),
+                          });
+                          setShowMetadataForm(true);
+                        }}
+                      >
+                        ✏️ Chỉnh sửa
+                      </button>
+                      <button
+                        className="admin-btn admin-btn-delete"
+                        onClick={() => {
+                          // Kiểm tra xem có frame nào đang dùng type này không
+                          const framesUsingType =
+                            config?.frames?.filter((f) => f.type === type) ||
+                            [];
+
+                          if (framesUsingType.length > 0) {
+                            Swal.fire({
+                              icon: "warning",
+                              title: "Không thể xóa",
+                              html: `Loại "${type}" đang được sử dụng bởi ${framesUsingType.length} frame(s).<br/>Vui lòng đổi type của các frame này trước khi xóa.`,
+                              confirmButtonText: "Đã hiểu",
+                              confirmButtonColor: "#E85A8D",
+                            });
+                            return;
+                          }
+
+                          Swal.fire({
+                            title: "Xóa Default Metadata?",
+                            text: `Bạn có chắc chắn muốn xóa Default Metadata của "${type}"? Loại này cũng sẽ bị xóa khỏi danh sách Types.`,
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Xóa",
+                            cancelButtonText: "Hủy",
+                            confirmButtonColor: "#E85A8D",
+                            cancelButtonColor: "#999",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              const newConfig = { ...config };
+
+                              // Xóa khỏi types
+                              if (newConfig.types) {
+                                newConfig.types = newConfig.types.filter(
+                                  (t) => t !== type
+                                );
+                              }
+
+                              // Xóa defaultFrameMetadata
+                              if (
+                                newConfig.defaultFrameMetadata &&
+                                newConfig.defaultFrameMetadata[type]
+                              ) {
+                                delete newConfig.defaultFrameMetadata[type];
+                              }
+
+                              setConfig(newConfig);
+                              Swal.fire({
+                                icon: "success",
+                                title: "Đã xóa!",
+                                text: `Default Metadata của "${type}" đã được xóa`,
+                                confirmButtonText: "OK",
+                                confirmButtonColor: "#E85A8D",
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        🗑️ Xóa
+                      </button>
+                    </div>
                   </div>
                 );
               })}
-            </div>
-
-            <div
-              className="admin-metadata-header"
-              style={{ marginTop: "2rem" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <h2>Frame-Specific Metadata</h2>
-                  <p>Chỉnh sửa layout cho từng frame cụ thể (ghi đè default)</p>
-                </div>
-                <button
-                  className="admin-btn admin-btn-primary"
-                  onClick={() => {
-                    Swal.fire({
-                      title: "Thêm Frame Metadata",
-                      input: "text",
-                      inputLabel: "Tên frame (tên file ảnh)",
-                      inputPlaceholder: "Ví dụ: basic-white.png",
-                      showCancelButton: true,
-                      confirmButtonText: "Thêm",
-                      cancelButtonText: "Hủy",
-                      confirmButtonColor: "#E85A8D",
-                      inputValidator: (value) => {
-                        if (!value) {
-                          return "Vui lòng nhập tên frame!";
-                        }
-                        if (config?.frameMetadata?.[value]) {
-                          return "Frame metadata này đã tồn tại!";
-                        }
-                      },
-                    }).then((result) => {
-                      if (result.isConfirmed && result.value) {
-                        const frameName = result.value;
-                        // Lấy default metadata từ frame type
-                        const frame = config?.frames?.find((f) =>
-                          f.path.includes(frameName)
-                        );
-                        const frameType = frame?.type || "banv1";
-                        const defaultMeta = config?.defaultFrameMetadata?.[
-                          frameType
-                        ] || {
-                          slots: [{ x: 6, y: 10, width: 88, height: 18.9 }],
-                        };
-
-                        setEditingMetadata({
-                          type: "frame",
-                          frameName: frameName,
-                          metadata: JSON.parse(JSON.stringify(defaultMeta)),
-                        });
-                        setShowMetadataForm(true);
-                      }
-                    });
-                  }}
-                >
-                  ➕ Thêm Metadata
-                </button>
-              </div>
-            </div>
-
-            <div className="admin-frame-metadata-list">
-              {config?.frameMetadata &&
-              Object.keys(config.frameMetadata).length > 0 ? (
-                Object.entries(config.frameMetadata).map(
-                  ([frameName, metadata]) => (
-                    <div key={frameName} className="admin-frame-metadata-item">
-                      <div className="admin-frame-metadata-info">
-                        <h4>{frameName}</h4>
-                        <p>Số slots: {metadata.slots?.length || 0}</p>
-                      </div>
-                      <div className="admin-frame-metadata-actions">
-                        <button
-                          className="admin-btn admin-btn-edit"
-                          onClick={() => {
-                            setEditingMetadata({
-                              type: "frame",
-                              frameName: frameName,
-                              metadata: JSON.parse(JSON.stringify(metadata)),
-                            });
-                            setShowMetadataForm(true);
-                          }}
-                        >
-                          ✏️ Sửa
-                        </button>
-                        <button
-                          className="admin-btn admin-btn-delete"
-                          onClick={() => {
-                            Swal.fire({
-                              title: "Xóa metadata?",
-                              text: `Bạn có chắc muốn xóa metadata của "${frameName}"?`,
-                              icon: "warning",
-                              showCancelButton: true,
-                              confirmButtonText: "Xóa",
-                              cancelButtonText: "Hủy",
-                              confirmButtonColor: "#E85A8D",
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                const newConfig = { ...config };
-                                delete newConfig.frameMetadata[frameName];
-                                setConfig(newConfig);
-                                Swal.fire({
-                                  icon: "success",
-                                  title: "Đã xóa",
-                                  text: "Metadata đã được xóa (chưa lưu lên server)",
-                                  confirmButtonText: "OK",
-                                  confirmButtonColor: "#E85A8D",
-                                });
-                              }
-                            });
-                          }}
-                        >
-                          🗑️ Xóa
-                        </button>
-                      </div>
-                    </div>
-                  )
-                )
-              ) : (
-                <div className="admin-empty">
-                  <p>Chưa có frame-specific metadata nào</p>
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -1265,7 +1791,7 @@ function Admin() {
               <h2>
                 {editingMetadata.type === "default"
                   ? `Chỉnh sửa Default Metadata - ${editingMetadata.frameType}`
-                  : `Chỉnh sửa Metadata - ${editingMetadata.frameName}`}
+                  : ""}
               </h2>
               <div className="admin-form">
                 <div className="admin-form-group">
@@ -1428,18 +1954,30 @@ function Admin() {
                     onClick={() => {
                       const newConfig = { ...config };
                       if (editingMetadata.type === "default") {
+                        // Giữ lại defaultFrameMetadata cũ và cập nhật
                         if (!newConfig.defaultFrameMetadata) {
                           newConfig.defaultFrameMetadata = {};
                         }
-                        newConfig.defaultFrameMetadata[
-                          editingMetadata.frameType
-                        ] = editingMetadata.metadata;
-                      } else {
-                        if (!newConfig.frameMetadata) {
-                          newConfig.frameMetadata = {};
+                        newConfig.defaultFrameMetadata = {
+                          ...newConfig.defaultFrameMetadata,
+                          [editingMetadata.frameType]: editingMetadata.metadata,
+                        };
+
+                        // Lấy danh sách types hiện tại (từ config hoặc default)
+                        const currentTypes = getTypes();
+                        // Đảm bảo types được lưu vào config
+                        if (!newConfig.types) {
+                          newConfig.types = [...currentTypes];
                         }
-                        newConfig.frameMetadata[editingMetadata.frameName] =
-                          editingMetadata.metadata;
+                        // Đảm bảo type được thêm vào danh sách types
+                        if (
+                          !newConfig.types.includes(editingMetadata.frameType)
+                        ) {
+                          newConfig.types = [
+                            ...newConfig.types,
+                            editingMetadata.frameType,
+                          ];
+                        }
                       }
                       setConfig(newConfig);
                       setShowMetadataForm(false);

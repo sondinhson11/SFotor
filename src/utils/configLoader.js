@@ -14,11 +14,13 @@ export async function loadConfig(force = false) {
     cacheTimestamp = null;
   }
 
-  // Kiểm tra cache có cũ quá không (nếu cache > 5 phút thì reload)
+  // Kiểm tra cache có cũ quá không (nếu cache > 2 phút thì reload)
+  // Giảm thời gian cache để đảm bảo update nhanh hơn
   const now = Date.now();
   if (cachedConfig && cacheTimestamp && !forceReload) {
     const cacheAge = now - cacheTimestamp;
-    if (cacheAge > CACHE_MAX_AGE) {
+    if (cacheAge > 2 * 60 * 1000) {
+      // 2 phút thay vì 5 phút
       console.log(
         `Config cache đã cũ (${Math.round(
           cacheAge / 1000
@@ -51,22 +53,18 @@ export async function loadConfig(force = false) {
       }
     }
 
-    // Nếu force reload, thêm timestamp để bypass browser cache
-    const url = forceReload
-      ? `${baseUrl}config.json?t=${Date.now()}`
-      : `${baseUrl}config.json`;
+    // Thêm timestamp để bypass browser cache (đặc biệt trên mobile)
+    // Trên mobile browser cache rất mạnh, cần cache busting tốt hơn
+    // Luôn dùng timestamp mới để đảm bảo bypass cache trên mobile
+    const timestamp = Date.now();
+    const url = `${baseUrl}config.json?v=${timestamp}&t=${timestamp}`;
 
     const response = await fetch(url, {
-      cache: forceReload ? "no-cache" : "default",
-      headers: forceReload
-        ? {
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            Pragma: "no-cache",
-            Expires: "0",
-          }
-        : {
-            "Cache-Control": "max-age=3600", // Cache 1 giờ
-          },
+      cache: forceReload ? "no-store" : "reload", // Bypass cache khi force reload
+      headers: {
+        "Cache-Control": "no-cache, must-revalidate", // Cho phép cache nhưng phải validate
+        Pragma: "no-cache",
+      },
     });
 
     if (!response.ok) {

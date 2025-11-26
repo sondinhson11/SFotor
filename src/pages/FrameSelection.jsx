@@ -570,53 +570,60 @@ function FrameSelection() {
           loadedCount++;
           const slot = slots[index] || slots[0]; // Fallback về slot đầu nếu không đủ
 
-          // Tính toán để ảnh fit vào slot (giữ tỷ lệ)
+          // Tính toán để ảnh fit vào slot giống như CSS object-fit: cover
+          // object-fit: cover = fill toàn bộ slot, crop phần thừa, căn giữa
           const slotAspect = slot.width / slot.height;
           const photoAspect = photoImg.width / photoImg.height;
 
-          let drawWidth = slot.width;
-          let drawHeight = slot.height;
-          let drawX = slot.x;
-          let drawY = slot.y;
+          // Vị trí và kích thước vẽ = chính xác slot (fill toàn bộ)
+          const drawWidth = slot.width;
+          const drawHeight = slot.height;
+          const drawX = slot.x;
+          const drawY = slot.y;
+
+          // Tính toán phần ảnh nguồn cần crop để fit vào slot
+          let sourceX = 0;
+          let sourceY = 0;
+          let sourceWidth = photoImg.width;
+          let sourceHeight = photoImg.height;
 
           if (photoAspect > slotAspect) {
-            // Ảnh rộng hơn slot: fit theo chiều cao, căn giữa ngang
-            drawHeight = slot.height;
-            drawWidth = slot.height * photoAspect;
-            drawX = slot.x + (slot.width - drawWidth) / 2;
+            // Ảnh rộng hơn slot: crop 2 bên, lấy phần giữa theo chiều ngang
+            // Scale theo chiều cao
+            sourceHeight = photoImg.height;
+            sourceWidth = photoImg.height * slotAspect;
+            sourceX = (photoImg.width - sourceWidth) / 2;
           } else {
-            // Ảnh cao hơn slot: fit theo chiều rộng, ưu tiên phần phía trên
-            drawWidth = slot.width;
-            drawHeight = slot.width / photoAspect;
-            drawX = slot.x;
-            const extraHeight = drawHeight - slot.height;
-            let proposedY = slot.y - extraHeight * 0.3;
-            const maxY = slot.y;
-            const minY = slot.y + slot.height - drawHeight;
-            if (proposedY > maxY) {
-              proposedY = maxY;
-            }
-            if (proposedY < minY) {
-              proposedY = minY;
-            }
-            drawY = proposedY;
+            // Ảnh cao hơn slot: crop trên dưới, lấy phần giữa theo chiều dọc
+            // Scale theo chiều rộng
+            sourceWidth = photoImg.width;
+            sourceHeight = photoImg.width / slotAspect;
+            sourceY = (photoImg.height - sourceHeight) / 2;
           }
 
-          // Lưu thông tin ảnh để vẽ sau
+          // Lưu thông tin ảnh để vẽ sau (với source crop cho object-fit: cover)
           photoImages.push({
             img: photoImg,
             x: drawX,
             y: drawY,
             width: drawWidth,
             height: drawHeight,
+            sourceX: sourceX,
+            sourceY: sourceY,
+            sourceWidth: sourceWidth,
+            sourceHeight: sourceHeight,
           });
 
           // Khi tất cả ảnh đã load, vẽ chúng lên canvas
           if (loadedCount === photos.length) {
-            // Bước 1: Vẽ tất cả ảnh trước (background)
+            // Bước 1: Vẽ tất cả ảnh trước (background) với object-fit: cover
             photoImages.forEach((photoData) => {
               ctx.drawImage(
                 photoData.img,
+                photoData.sourceX || 0,
+                photoData.sourceY || 0,
+                photoData.sourceWidth || photoData.img.width,
+                photoData.sourceHeight || photoData.img.height,
                 photoData.x,
                 photoData.y,
                 photoData.width,
@@ -641,10 +648,14 @@ function FrameSelection() {
         photoImg.onerror = () => {
           loadedCount++;
           if (loadedCount === photos.length) {
-            // Vẽ ảnh đã load được trước
+            // Vẽ ảnh đã load được trước với object-fit: cover
             photoImages.forEach((photoData) => {
               ctx.drawImage(
                 photoData.img,
+                photoData.sourceX || 0,
+                photoData.sourceY || 0,
+                photoData.sourceWidth || photoData.img.width,
+                photoData.sourceHeight || photoData.img.height,
                 photoData.x,
                 photoData.y,
                 photoData.width,
